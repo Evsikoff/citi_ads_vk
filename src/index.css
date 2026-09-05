@@ -1,0 +1,331 @@
+@import "tailwindcss";
+
+/* Шрифты входят в архив игры и не требуют доступа к внешнему CDN. */
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./fonts/rubik-normal-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./fonts/rubik-normal-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/rubik-italic-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/rubik-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/russo-one-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/russo-one-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  --font-display: "Russo One", "Rubik", sans-serif;
+  --font-body: "Rubik", "Segoe UI", sans-serif;
+  --color-night-950: #070b14;
+  --color-night-900: #0b101c;
+  --color-night-800: #111827;
+  --color-night-700: #1a2334;
+  --color-night-600: #26314a;
+  --color-amber-glow: #ffb454;
+  --color-aqua-glow: #59d8c9;
+}
+
+:root {
+  --vk-viewport-width: 100%;
+  --vk-viewport-height: 100%;
+  --vk-safe-area-top: env(safe-area-inset-top, 0px);
+  --vk-safe-area-right: env(safe-area-inset-right, 0px);
+  --vk-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --vk-safe-area-left: env(safe-area-inset-left, 0px);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+  background: #0b101c;
+  font-family: "Rubik", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* прокрутка страницы и pull-to-refresh не должны доходить до документа */
+  overscroll-behavior: none;
+}
+
+#root {
+  width: var(--vk-viewport-width);
+  height: var(--vk-viewport-height);
+}
+
+/* Основные игровые панели не заходят под системные зоны клиента VK. */
+.vk-safe-top-left {
+  top: calc(1rem + var(--vk-safe-area-top));
+  left: calc(1rem + var(--vk-safe-area-left));
+}
+
+.vk-safe-top-right {
+  top: calc(1rem + var(--vk-safe-area-top));
+  right: calc(1rem + var(--vk-safe-area-right));
+}
+
+.vk-safe-top-center {
+  top: calc(1rem + var(--vk-safe-area-top));
+}
+
+.vk-safe-bottom-left {
+  bottom: calc(1rem + var(--vk-safe-area-bottom));
+  left: calc(1rem + var(--vk-safe-area-left));
+}
+
+.vk-safe-bottom-right {
+  right: calc(1rem + var(--vk-safe-area-right));
+}
+
+.vk-safe-bottom-right-desktop {
+  bottom: calc(1rem + var(--vk-safe-area-bottom));
+}
+
+.vk-safe-bottom-right-touch {
+  bottom: calc(12rem + var(--vk-safe-area-bottom));
+}
+
+.vk-safe-bottom-center {
+  bottom: calc(1rem + var(--vk-safe-area-bottom));
+}
+
+.vk-safe-touch-controls {
+  right: calc(1.25rem + var(--vk-safe-area-right));
+  bottom: calc(6rem + var(--vk-safe-area-bottom));
+  left: calc(1.25rem + var(--vk-safe-area-left));
+}
+
+.vk-safe-toast {
+  top: calc(4rem + var(--vk-safe-area-top));
+}
+
+.vk-safe-menu {
+  padding: calc(1rem + var(--vk-safe-area-top))
+    calc(1rem + var(--vk-safe-area-right))
+    calc(1rem + var(--vk-safe-area-bottom))
+    calc(1rem + var(--vk-safe-area-left));
+}
+
+@media (min-width: 768px) {
+  .vk-safe-menu {
+    padding: calc(2rem + var(--vk-safe-area-top))
+      calc(2rem + var(--vk-safe-area-right))
+      calc(2rem + var(--vk-safe-area-bottom))
+      calc(2rem + var(--vk-safe-area-left));
+  }
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+}
+
+/* долгий тап не должен открывать системное меню и выделять текст */
+body {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* поля ввода оставляем «живыми»: выделение, вставка, ползунки */
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  -webkit-touch-callout: default;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+.font-display {
+  font-family: "Russo One", "Rubik", sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+/* ---------- keyframes ---------- */
+@keyframes blink-hard {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0.12; }
+}
+@keyframes stripe-slide {
+  from { background-position: 0 0; }
+  to { background-position: 56px 0; }
+}
+@keyframes pop-in {
+  0% { opacity: 0; transform: translateY(26px) scale(0.94); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes chip-pop {
+  0% { transform: scale(0.4) rotate(-12deg); opacity: 0; }
+  60% { transform: scale(1.18) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes toast-drop {
+  0% { opacity: 0; transform: translateY(-18px); }
+  12%, 84% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@keyframes needle-idle {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes loader-progress {
+  0% { width: 7%; transform: translateX(-80%); }
+  45% { width: 58%; }
+  100% { width: 18%; transform: translateX(560%); }
+}
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes loader-grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: 48px 48px; }
+}
+
+.anim-blink { animation: blink-hard 1.1s steps(1) infinite; }
+.anim-pop { animation: pop-in 0.42s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.anim-fade { animation: fade-in 0.3s ease both; }
+.anim-chip { animation: chip-pop 0.45s cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+.anim-toast { animation: toast-drop 2.2s ease both; }
+.anim-pulse-soft { animation: pulse-soft 1.6s ease-in-out infinite; }
+
+.loader-grid {
+  background-image:
+    linear-gradient(rgba(89, 216, 201, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(89, 216, 201, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at center, black, transparent 72%);
+  animation: loader-grid-drift 5s linear infinite;
+}
+
+.loader-radar::before,
+.loader-radar::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(89, 216, 201, 0.18);
+  border-radius: 999px;
+}
+
+.loader-radar::after {
+  inset: 8px 54px;
+  border-width: 0 1px;
+  border-radius: 0;
+}
+
+.loader-radar-sweep {
+  background: conic-gradient(from 10deg, transparent 0 77%, rgba(255, 180, 84, 0.4) 94%, transparent 100%);
+  animation: radar-sweep 1.55s linear infinite;
+}
+
+.loader-progress {
+  animation: loader-progress 1.35s cubic-bezier(0.55, 0, 0.35, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-grid,
+  .loader-radar-sweep,
+  .loader-progress {
+    animation-duration: 4s;
+  }
+}
+
+/* diagonal warning stripes */
+.stripes-amber {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 180, 84, 0.16) 0 14px,
+    transparent 14px 28px
+  );
+  background-size: 56px 56px;
+  animation: stripe-slide 2.6s linear infinite;
+}
+
+.kbd {
+  font-family: "Russo One", sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  color: #ffd9a0;
+  background: linear-gradient(180deg, #232c40, #161d2d);
+  border: 1px solid #3a4661;
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  padding: 6px 8px;
+  min-width: 30px;
+  text-align: center;
+  display: inline-block;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #2c3852; border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }

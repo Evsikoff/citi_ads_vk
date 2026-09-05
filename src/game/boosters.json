@@ -1,0 +1,91 @@
+[
+ {
+  "id": "1",
+  "created_at": "2026-08-29 18:00:46.531608+00",
+  "system_name": "speed10",
+  "name": "Скорость + 10%",
+  "display_method": "Booster menu",
+  "sales_method": "In-game currency",
+  "game_currency_cost_coefficient": "0.75",
+  "maximum_number_of_purchases_per_session": "1",
+  "icon_filename": "src\/images\/boosters\/speed10.png"
+ },
+ {
+  "id": "2",
+  "created_at": "2026-08-29 18:01:50.819138+00",
+  "system_name": "speed25",
+  "name": "Скорость + 25%",
+  "display_method": "Booster menu",
+  "sales_method": "In-game currency",
+  "game_currency_cost_coefficient": "1.25",
+  "parent_booster": "1",
+  "maximum_number_of_purchases_per_session": "1",
+  "icon_filename": "src\/images\/boosters\/speed25.png"
+ },
+ {
+  "id": "3",
+  "created_at": "2026-08-29 18:03:08.84205+00",
+  "system_name": "consumption20",
+  "name": "Расход - 20%",
+  "display_method": "Booster menu",
+  "sales_method": "In-game currency",
+  "game_currency_cost_coefficient": "0.75",
+  "maximum_number_of_purchases_per_session": "1",
+  "icon_filename": "src\/images\/boosters\/consumption20.png"
+ },
+ {
+  "id": "4",
+  "created_at": "2026-08-29 18:04:29.896778+00",
+  "system_name": "consumption35",
+  "name": "Расход - 35%",
+  "display_method": "Booster menu",
+  "sales_method": "In-game currency",
+  "game_currency_cost_coefficient": "1.25",
+  "parent_booster": "3",
+  "maximum_number_of_purchases_per_session": "1",
+  "icon_filename": "src\/images\/boosters\/consumption35.png"
+ },
+ {
+  "id": "5",
+  "created_at": "2026-08-29 18:09:31.477155+00",
+  "system_name": "activation_of_the_selected_filling_station",
+  "name": "Активировать эту АЗС",
+  "display_method": "Next to an inactive gas station",
+  "sales_method": "Video advertising",
+  "maximum_number_of_purchases_per_session": "2",
+  "icon_filename": "src\/images\/boosters\/activation_of_the_selected_filling_station.png"
+ },
+ {
+  "id": "6",
+  "created_at": "2026-08-29 18:21:24.219749+00",
+  "system_name": "fuel10l",
+  "name": "+ 10 л. бенза",
+  "display_method": "Game Over Screen and Booster menu",
+  "sales_method": "In-app purchase",
+  "maximum_number_of_purchases_per_session": "2",
+  "actual_price": "1",
+  "icon_filename": "src\/images\/boosters\/fuel10l.png"
+ },
+ {
+  "id": "7",
+  "created_at": "2026-08-29 18:23:39.429582+00",
+  "system_name": "money025",
+  "name": "+ [0.25 * S] ₽",
+  "display_method": "Booster menu",
+  "sales_method": "In-app purchase",
+  "maximum_number_of_purchases_per_session": "2",
+  "actual_price": "1",
+  "icon_filename": "src\/images\/boosters\/money0.25.png"
+ },
+ {
+  "id": "8",
+  "created_at": "2026-08-29 18:25:46.09196+00",
+  "system_name": "money05",
+  "name": "+ [0.5 * S] ₽",
+  "display_method": "Booster menu",
+  "sales_method": "In-app purchase",
+  "maximum_number_of_purchases_per_session": "2",
+  "actual_price": "2",
+  "icon_filename": "src\/images\/boosters\/money0.5.png"
+ }
+]

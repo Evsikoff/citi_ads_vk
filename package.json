@@ -1,0 +1,30 @@
+{
+  "name": "citi-ads-vk",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run boostercheck && npm run commercecheck && npm run vkcheck && npm run netcheck && npm run reconcheck",
+    "boostercheck": "node --experimental-strip-types --no-warnings src/game/boosterEffects.check.ts",
+    "commercecheck": "node --experimental-strip-types --no-warnings src/game/boosterCommerce.check.ts",
+    "vkcheck": "node --experimental-strip-types --no-warnings src/game/vkGames.check.ts",
+    "netcheck": "node --experimental-strip-types --no-warnings src/game/netclock.check.ts",
+    "reconcheck": "node --experimental-strip-types --no-warnings src/game/reconcile.check.ts"
+  },
+  "dependencies": {
+    "@vkontakte/vk-bridge": "^3.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.7",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.1.7",
+    "typescript": "^5.7.0",
+    "vite": "^6.3.5"
+  }
+}
