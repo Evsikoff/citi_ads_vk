@@ -127,6 +127,30 @@ export function calculateBoosterCost(booster: Booster, startMoney: number): numb
   }
 }
 
+/** Цена In-App покупки из `actual_price` — количество голосов VK. */
+export function getVkVotesPrice(booster: Booster): number | null {
+  if (booster.sales_method !== "In-app purchase") return null;
+  const votes = Number.parseInt(booster.actual_price ?? "", 10);
+  if (!Number.isFinite(votes) || votes <= 0) return null;
+  return votes;
+}
+
+function votesWord(votes: number): string {
+  const mod10 = votes % 10;
+  const mod100 = votes % 100;
+  if (mod100 >= 11 && mod100 <= 14) return "голосов";
+  if (mod10 === 1) return "голос";
+  if (mod10 >= 2 && mod10 <= 4) return "голоса";
+  return "голосов";
+}
+
+/** Человекочитаемая цена в голосах VK, например «1 голос», «4 голоса». */
+export function formatVkVotesPrice(booster: Booster): string | null {
+  const votes = getVkVotesPrice(booster);
+  if (votes === null) return null;
+  return `${votes} ${votesWord(votes)}`;
+}
+
 export function getMaximumPurchases(booster: Booster): number {
   const maximum = Number.parseInt(booster.maximum_number_of_purchases_per_session, 10);
   return Number.isFinite(maximum) ? Math.max(0, maximum) : 0;
