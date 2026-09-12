@@ -1,4 +1,4 @@
-import boosterData from "./boosters.json";
+import boosterData from "./boosters.json" with { type: "json" };
 
 export type BoosterSalesMethod =
   | "In-game currency"

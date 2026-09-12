@@ -407,6 +407,17 @@ export class CityRideGame {
     sfx.engineStart();
   }
 
+  enterMenu(): void {
+    if (this.phase !== "play") return;
+    this.phase = "menu";
+    this.setPaused(true);
+  }
+
+  resume(): void {
+    if (this.phase !== "menu") return;
+    this.phase = "play";
+  }
+
   setPaused(p: boolean): void {
     this.paused = p;
     if (p) {

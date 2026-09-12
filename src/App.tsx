@@ -13,6 +13,7 @@ import {
   calculateBoosterCost,
   executeExternalBoosterSale,
   formatBoosterName,
+  formatVkVotesPrice,
   getMaximumPurchases,
   isBoosterAvailable,
   isBoosterWithinSessionLimit,
@@ -151,6 +152,16 @@ const MapIcon = ({ className }: { className?: string }) => (
     <circle cx="12" cy="11" r="2.2" fill="currentColor" />
   </svg>
 );
+const MenuIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" aria-hidden="true">
+    <path
+      d="M4 6h16M4 12h16M4 18h16"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
 const FullscreenIcon = ({ active }: { active: boolean }) => (
   <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" aria-hidden="true">
     {active ? (
@@ -221,6 +232,7 @@ export default function App() {
   const boostersMenuRef = useRef<HTMLDivElement>(null);
 
   const [phase, setPhase] = useState<"loading" | "menu" | "play">("loading");
+  const [hasActiveRun, setHasActiveRun] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("connecting");
   const [fullscreenAdActive, setFullscreenAdActive] = useState(false);
   const [pageVisible, setPageVisible] = useState(
@@ -656,6 +668,14 @@ export default function App() {
       sfx.tick();
       music.play();
 
+      if (hasActiveRun) {
+        gameRef.current?.resume();
+        setMapOpen(false);
+        setBoostersOpen(false);
+        setPhase("play");
+        return;
+      }
+
       let playerName: string | undefined;
       try {
         playerName = await getVKPlayerName();
@@ -678,6 +698,7 @@ export default function App() {
       setInactiveStationNearby(false);
       setInactiveStationInReach(false);
       dropPendingStationBooster();
+      setHasActiveRun(true);
       setPhase("play");
     } finally {
       startPending.current = false;
@@ -701,6 +722,17 @@ export default function App() {
     setInactiveStationInReach(false);
     dropPendingStationBooster();
     showToast("Новая охота: билборды снова доступны, бак полный");
+  };
+
+  const returnToMainMenu = () => {
+    if (phase !== "play" || fullscreenAdActive || purchasePending || activationPending) return;
+    sfx.tick();
+    gameRef.current?.enterMenu();
+    setMapOpen(false);
+    setBoostersOpen(false);
+    setSell(null);
+    setWin(null);
+    setPhase("menu");
   };
 
   /**
@@ -1058,6 +1090,8 @@ export default function App() {
         if (boostersOpen) setBoostersOpen(false);
         else if (mapOpen) setMapOpen(false);
         else if (win) setWin(null);
+        else if (sell) setSell(null);
+        else if (phase === "play" && !gameover) returnToMainMenu();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -1075,6 +1109,8 @@ export default function App() {
     inactiveStationInReach,
     boosterPurchases,
     fullscreen,
+    purchasePending,
+    activationPending,
   ]);
 
   const hold = (k: "up" | "down" | "left" | "right") => ({
@@ -1127,6 +1163,8 @@ export default function App() {
       const isBuying = purchasePending === booster.id;
       const isActivating = activationPending === booster.id;
       const purchaseLimitReached = purchasedThisSession >= maximum;
+      const formattedPrice = formatVkVotesPrice(booster);
+      const priceLabel = formattedPrice ? `${formattedPrice} VK` : "Цена не указана";
       const canBuy =
         commerceStatus === "ready" &&
         !isOdnoklassniki &&
@@ -1157,6 +1195,9 @@ export default function App() {
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-1.5 font-display text-sm leading-tight text-[#f2ecdf]">
                 <span>{formatBoosterName(booster.name, CONFIG.startMoney)}</span>
+                <span className="rounded border border-[#ffd27a]/30 bg-[#ffd27a]/10 px-1.5 py-0.5 font-sans text-[9px] font-bold text-[#ffd27a]">
+                  {priceLabel}
+                </span>
               </div>
               <div className="mt-1 text-[10px] leading-snug text-slate-500">
                 Покупка попадёт в инвентарь и не включится сама.
@@ -1172,6 +1213,7 @@ export default function App() {
               type="button"
               disabled={!canBuy}
               onClick={() => void purchaseInAppBooster(booster)}
+              aria-label={`${purchaseLabel}: ${priceLabel}`}
               className="flex min-h-9 items-center justify-center gap-1.5 rounded-md border border-[#ffd27a]/35 bg-[#ffd27a]/10 px-2 text-[10px] font-bold text-[#ffd27a] transition-colors enabled:hover:border-[#ffd27a]/70 enabled:hover:bg-[#ffd27a]/15 disabled:cursor-not-allowed disabled:opacity-45"
             >
               <span>{purchaseLabel}</span>
@@ -1486,6 +1528,17 @@ export default function App() {
 
           {/* правый верх: карта, музыка и звук */}
           <div className="vk-safe-top-right absolute z-10 pointer-events-auto flex items-center gap-2">
+              <button
+                type="button"
+                onClick={returnToMainMenu}
+                className="flex h-9 items-center gap-2 rounded-md border border-night-600 bg-night-900/85 px-2.5 text-slate-400 transition-colors hover:border-amber-glow/50 hover:text-amber-glow"
+                aria-label="Вернуться в главное меню"
+                title="Главное меню (Esc)"
+              >
+                <MenuIcon />
+                <span className="hidden text-[10px] font-bold uppercase tracking-[0.12em] sm:inline">Меню</span>
+                <span className="kbd hidden lg:inline">Esc</span>
+              </button>
               <button
                 onClick={() => setMapOpen(true)}
                 className="flex h-9 items-center gap-2 rounded-md border border-night-600 bg-night-900/85 px-2.5 text-slate-400 transition-colors hover:border-[#7ee08a]/50 hover:text-[#7ee08a]"
@@ -1907,7 +1960,7 @@ export default function App() {
                     onClick={start}
                     className="rounded-md bg-amber-glow text-night-950 font-display text-base tracking-wide px-7 py-3.5 hover:brightness-110 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_10px_34px_rgba(255,180,84,0.4)]"
                   >
-                    Выехать на охоту
+                    {hasActiveRun ? "Продолжить заезд" : "Выехать на охоту"}
                   </button>
                   <span className="text-sm text-slate-500 anim-blink">
                     или нажми <span className="kbd">ENTER</span>
