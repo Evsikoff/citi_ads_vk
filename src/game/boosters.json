@@ -63,7 +63,7 @@
   "display_method": "Game Over Screen and Booster menu",
   "sales_method": "In-app purchase",
   "maximum_number_of_purchases_per_session": "2",
-  "actual_price": "1",
+  "actual_price": "2",
   "icon_filename": "src\/images\/boosters\/fuel10l.png"
  },
  {
@@ -74,7 +74,7 @@
   "display_method": "Booster menu",
   "sales_method": "In-app purchase",
   "maximum_number_of_purchases_per_session": "2",
-  "actual_price": "1",
+  "actual_price": "2",
   "icon_filename": "src\/images\/boosters\/money0.25.png"
  },
  {
